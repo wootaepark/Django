@@ -1,5 +1,6 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+from django.urls import reverse
 
 from accountapp.models import HelloWorld
 
@@ -17,11 +18,15 @@ def hello_world(request):
         new_hello_world.text = temp
         new_hello_world.save()
 
-        return render(request, 'accountapp/hello_world.html', context={'hello_world_output': new_hello_world})
-         # context == 데이터 꾸러미, text라는 이름으로 전달,  temp 데이터 꾸러미를 넣어서 리턴한다는 뜻
+        # hello_world_list = HelloWorld.objects.all()  #HelloWorld의 모든 데이터를 다 가져온다는 뜻, hello_world_list에 저장
+
+        return HttpResponseRedirect(reverse('accountapp:hello_world'))
+        #accountapp에 있는 hello_world로 재접속하라는 response를 보내주게 된다.
+
 
 
 
     else:
-        return render(request, 'accountapp/hello_world.html', context={'text': 'GET METHOD!!!'})
-
+        hello_world_list = HelloWorld.objects.all()
+        return render(request, 'accountapp/hello_world.html', context={'hello_world_list': hello_world_list})
+        # context == 데이터 꾸러미, text라는 이름으로 전달,  temp 데이터 꾸러미를 넣어서 리턴한다는 뜻

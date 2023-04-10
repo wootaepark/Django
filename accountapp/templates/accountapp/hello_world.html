@@ -20,14 +20,17 @@
 
     </form>
 
-      <!--이 hello_world_output 이 존재 하면 if 문 안의 태그를 생성 하라는 뜻-->
-      {% if hello_world_output %}
 
-     <h1>
-       {{ hello_world_output.text}}
-     </h1>
+      {% if hello_world_list %}
+         {% for hello_world in hello_world_list %}
 
+             <h4>
+                 {{ hello_world.text }}
+             </h4>
+        {% endfor %}
       {% endif %}
+
+
 
   </div>
 
