@@ -23,9 +23,6 @@ def hello_world(request):
         return HttpResponseRedirect(reverse('accountapp:hello_world'))
         #accountapp에 있는 hello_world로 재접속하라는 response를 보내주게 된다.
 
-
-
-
     else:
         hello_world_list = HelloWorld.objects.all()
         return render(request, 'accountapp/hello_world.html', context={'hello_world_list': hello_world_list})
