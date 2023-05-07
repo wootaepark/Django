@@ -1,11 +1,15 @@
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from django.urls import reverse
-
-from accountapp.models import HelloWorld
 
 
 # Create your views here.
+from django.urls import reverse, reverse_lazy
+from django.views.generic import CreateView
+
+from accountapp.models import HelloWorld
+
 
 def hello_world(request):
 
@@ -27,3 +31,10 @@ def hello_world(request):
         hello_world_list = HelloWorld.objects.all()
         return render(request, 'accountapp/hello_world.html', context={'hello_world_list': hello_world_list})
         # context == 데이터 꾸러미, text라는 이름으로 전달,  temp 데이터 꾸러미를 넣어서 리턴한다는 뜻
+
+
+class AccountCreateView(CreateView): #CreateView를 상속 받는 클래스
+    model = User
+    form_class = UserCreationForm
+    success_url = reverse_lazy('accountapp:hello_world')
+    template_name = 'accountapp/create.html'

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div style = "text-align:center">
+        <form action="{% url 'accountapp:create' %}" method = "post"><!--url 을 모두 일원화 하는 코드 본래는 accountapp/create
+         accountapp 에 있는 create 로 연결하라는 의미-->
+            {% csrf_token %}
+            {{form}}
+
+
+            <input type="submit" class = "btn btn-primary">
+
+        </form>
+    </div>
+
+
+
+{% endblock %}
