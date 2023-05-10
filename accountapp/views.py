@@ -18,7 +18,7 @@ def hello_world(request):
         # request의 POST 중에서 hello_world_input 이라는 이름을 가진 데이터를 temp 에 대입.
         temp=request.POST.get('hello_world_input')
 
-        new_hello_world = HelloWorld()
+        new_hello_world = HelloWorld()  #DB 연결을 하겠다는 것
         new_hello_world.text = temp
         new_hello_world.save()
 
@@ -26,6 +26,7 @@ def hello_world(request):
 
         return HttpResponseRedirect(reverse('accountapp:hello_world'))
         #accountapp에 있는 hello_world로 재접속하라는 response를 보내주게 된다.
+        #render를 쓰면 계속 반복됨 (get으로 호출이 되지 않는다.)
 
     else:
         hello_world_list = HelloWorld.objects.all()
