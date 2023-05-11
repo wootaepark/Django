@@ -5,17 +5,22 @@
   </div>
 
   <div>
-   <span>nav1</span>
-   <span>nav2</span>
-   <span>nav3</span>
+      <span>nav1</span>
+      <span>nav2</span>
+      <span>nav3</span>
+
+
       {% if not user.is_authenticated %} <!-- 유저가 로그인이 되어 있지 않다면은  -->
       <a href=" {% url 'accountapp:login' %}?next={{ request.path }}">
           <span>login</span>  <!-- 우리가 만든 로그인 경로로 갈 수 있도록 만듬 -->
       </a>
       {% else %}
-      <a href="{% url 'accountapp:logout' %}?next={{ request.path }}">
+        <a href=" {% url 'accountapp:detail' pk=user.pk %} ">
+          <span>MyPage</span>
+        </a>
+         <a href="{% url 'accountapp:logout' %}?next={{ request.path }}">
           <span>logout</span>
-      </a>
+        </a>
       {% endif %}
 
   </div>
