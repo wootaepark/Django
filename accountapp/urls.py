@@ -14,6 +14,7 @@ urlpatterns = [
 
     path('login/', LoginView.as_view(template_name='accountapp/login.html'), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
+    # Login 뷰와 Logout 뷰는 장고에서 제공해준다.
 
     path('create/', AccountCreateView.as_view(), name='create'),
     path('detail/<int:pk>', AccountDetailView.as_view(), name='detail'),
