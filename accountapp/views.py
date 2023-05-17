@@ -92,7 +92,7 @@ class AccountDeleteView(DeleteView):
     success_url = reverse_lazy('accountapp:login')
     template_name = 'accountapp/delete.html'
 
-    def get(self,*args,**kwargs):
+    """def get(self,*args,**kwargs):
         if self.request.user.is_authenticated and self.get_object() == self.request.user:
             return super().get(*args,**kwargs)
         else:
@@ -102,4 +102,4 @@ class AccountDeleteView(DeleteView):
         if self.request.user.is_authenticated and self.get_object() == self.request.user:
             return super().post(*args,**kwargs)
         else:
-            return HttpResponseForbidden()
+            return HttpResponseForbidden()"""
