@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+ <div>
+   <div style = "...">
+     <h1 style="text-align:center">
+       {{ target_article.title }}
+
+     </h1>
+
+      <img src="{{ target_article.image.url }}" alt="">
+
+     <p style="text-align:center">
+       {{ target_article.content }}
+     </p>
+
+       <a href="{% url 'articleapp:update' pk=target_article.pk %}">
+            <p style="text-align:center">
+                Update Article
+            </p>
+       </a>
+
+       <a href="{% url 'articleapp:delete' pk=target_article.pk %}">
+            <p style="text-align:center">
+                Delete Article
+            </p>
+       </a>
+
+   </div>
+
+ </div>
+
+
+
+{% endblock %}
+
+
