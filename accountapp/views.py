@@ -9,10 +9,12 @@ from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
+from django.views.generic.list import MultipleObjectMixin
 
 from accountapp.decorators import account_ownership_required
 from accountapp.forms import AccountUpdateForm
 from accountapp.models import HelloWorld
+from articleapp.models import Article
 
 has_ownership=[account_ownership_required, login_required] # decorator들의 배열 생성 (아래에서 처럼 간략화 하기 위함)
 @login_required
@@ -43,12 +45,18 @@ class AccountCreateView(CreateView): #CreateView를 상속 받는 클래스
     success_url = reverse_lazy('accountapp:hello_world')
     template_name = 'accountapp/create.html'
 
-class AccountDetailView(DetailView):
+class AccountDetailView(DetailView, MultipleObjectMixin):
     model = User
     template_name = 'accountapp/detail.html'
     context_object_name = 'target_user'
     # CreateView는 뭔가를 만들어야 되니까 form 이랑 성공시 리다이렉트 할 주소를 정해준 반면
     # DetailView는 어떤 모델을 쓰고 모델 내부의 정보를 어떻게 시각화 할지를 신경을 써줘면 된다.
+
+    paginate_by = 25
+
+    def get_context_data(self, **kwargs):
+        object_list = Article.objects.filter(writer=self.get_object())
+        return super(AccountDetailView,self).get_context_data(object_list=object_list,**kwargs)
 
 
 

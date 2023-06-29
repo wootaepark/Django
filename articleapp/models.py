@@ -1,10 +1,18 @@
 from django.contrib.auth.models import User
 from django.db import models
 
+from projectapp.models import Project
+
+
 # Create your models here.
 
 class Article(models.Model):
     writer=models.ForeignKey(User,on_delete=models.SET_NULL,related_name='article',null=True)
+    project=models.ForeignKey(Project,on_delete=models.SET_NULL,related_name='article',null=True)
+
+
+
+    #writer=models.ForeignKey(User,on_delete=models.SET_NULL,related_name='article',null=True)
     # on_delete = models.SET_NULL 은 Article이 회원 탈퇴를 했을때 게시글이 사라지지 않고, 알 수 없음으로 주인없는 게시글이 되는걸로 설정한 것
     # article 이라는 이름으로 설정한 이유는 User에서 접근할 때 article이라고 하며 접근하는 것이 자연스럽다고 생각
     # SET_NULL로 설정을 앞에서 해줬기 때문에 null이 가능하도록 True값으로 설정
