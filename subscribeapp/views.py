@@ -2,8 +2,9 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.utils.decorators import method_decorator
-from django.views.generic import RedirectView
+from django.views.generic import RedirectView, ListView
 
+from articleapp.models import Article
 from projectapp.models import Project
 from subscribeapp.models import Subscription
 
@@ -34,3 +35,21 @@ class SubscriptionView(RedirectView):
             Subscription(user=user,project=project).save()
             #구독 정보가 없는 경우 앞서 받은 user,project를 취합해 저장한다.
         return super(SubscriptionView,self).get(request,*args,**kwargs)
+
+@method_decorator(login_required,'get')
+class SubscriptionListView(ListView):
+    model=Article
+    context_object_name = 'article_list'
+    template_name='subscribeapp/list.html'
+    paginate_by = 5
+
+    # 다른앱 (accountapp 등)에서는 여기까지면 충분했었다.
+    # 하지만 여기서는 article을 싹 다 가져오는 것이 아닌 특정 조건들을 가진 게시글들만 가져와야하기 때문에 아래 코드가 필요
+    # 아래 function을 통해 가져오는 게시글의 조건을 바꿀 수 있다.
+
+    def get_queryset(self):
+        projects=Subscription.objects.filter(user=self.request.user).values_list('project')
+        #projects 변수 내부에 해당 유저의 project값 리스트를 모두 가져온다.
+
+        article_list=Article.objects.filter(project__in=projects)
+        return article_list
