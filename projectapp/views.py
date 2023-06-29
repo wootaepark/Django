@@ -45,6 +45,9 @@ class ProjectDetailView(DetailView,MultipleObjectMixin):
             subscription = Subscription.objects.filter(user=user,project=project)
             #subscription 변수에 user와 project정보를 대입한다.
 
+        else:
+            subscription = None
+
         object_list=Article.objects.filter(project=self.get_object())
         #현재프로젝트의 오브젝트를 가진 article 들을 모두 필터링 하는 것이다.
         return super(ProjectDetailView,self).get_context_data(object_list=object_list,

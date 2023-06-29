@@ -13,30 +13,9 @@ from django.views.generic.list import MultipleObjectMixin
 
 from accountapp.decorators import account_ownership_required
 from accountapp.forms import AccountUpdateForm
-from accountapp.models import HelloWorld
 from articleapp.models import Article
 
 has_ownership=[account_ownership_required, login_required] # decorator들의 배열 생성 (아래에서 처럼 간략화 하기 위함)
-@login_required
-def hello_world(request):
-    if request.method == "POST":  # 요청을 받은 객체 내에서 메소드를 찾는데 이것이 POST 메소드 일 경우
-        # request의 POST 중에서 hello_world_input 이라는 이름을 가진 데이터를 temp 에 대입.
-
-        temp = request.POST.get('hello_world_input')
-
-        new_hello_world = HelloWorld()  # DB 연결을 하겠다는 것
-        new_hello_world.text = temp
-        new_hello_world.save()
-        # hello_world_list = HelloWorld.objects.all()  #HelloWorld의 모든 데이터를 다 가져온다는 뜻, hello_world_list에 저장
-
-        return HttpResponseRedirect(reverse('accountapp:hello_world'))
-        # accountapp에 있는 hello_world로 재접속하라는 response를 보내주게 된다.
-        # render를 쓰면 계속 반복됨 (get으로 호출이 되지 않는다.)
-
-    else:
-        hello_world_list = HelloWorld.objects.all()
-        return render(request, 'accountapp/hello_world.html', context={'hello_world_list': hello_world_list})
-        # context == 데이터 꾸러미, text라는 이름으로 전달,  temp 데이터 꾸러미를 넣어서 리턴한다는 뜻 , 딕셔너리 형
 
 
 class AccountCreateView(CreateView): #CreateView를 상속 받는 클래스
